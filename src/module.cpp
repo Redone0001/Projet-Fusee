@@ -1,13 +1,13 @@
 #include "../include/module.h"
 using namespace std;
 
-module::module(float Masse,float Carburant, float coef, float SurfaceFrot):masse(Masse),carburant(Carburant),coefPuissance(coef),surfaceFrot(SurfaceFrot){
+module::module(long double Masse,long double Carburant, long double coef, long double SurfaceFrot):masse(Masse),carburant(Carburant),coefPuissance(coef),surfaceFrot(SurfaceFrot){
     consomation = 0;
 }
 
 module::~module(){}
 
-float module::puissance(){
-    float puissance = coefPuissance * consomation;
+long double module::puissance(){
+    long double puissance = coefPuissance * consomation;
     return puissance;
 }

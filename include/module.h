@@ -3,12 +3,12 @@
 class module{
 // variable 
 	public :
-	const float masse;
-	float carburant;
-	float coefPuissance;
-	float consomation;
-	const float surfaceFrot;
-	float puissance();
-	module(float,float,float,float);
+	const long double masse;
+	long double carburant;
+	long double coefPuissance;
+	long double consomation;
+	const long double surfaceFrot;
+	long double puissance();
+	module(long double,long double,long double,long double);
 	~module();
 };
