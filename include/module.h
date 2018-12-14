@@ -5,10 +5,9 @@ class module{
 	public :
 	const long double masse;
 	long double carburant;
-	long double coefPuissance;
-	long double consomation;
+	long double puissance;
 	const long double surfaceFrot;
-	long double puissance();
-	module(long double,long double,long double,long double);
+	long double consomation;
+	module(long double,long double,long double,long double,long double);
 	~module();
 };

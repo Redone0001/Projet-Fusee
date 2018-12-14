@@ -7,7 +7,7 @@ using namespace std;
 ordinateurDeBord::ordinateurDeBord (){
 	angle = 3.141592;
 	position.first = 0;
-	position.second=3371000.0;
+	position.second=6371000.0;
 	vitesse.first=0;
 	vitesse.second=465;
 	acceleration.first=0;
@@ -33,7 +33,7 @@ void ordinateurDeBord::updateCarburant(module x){
 long double ordinateurDeBord::sumPuissance(vector <module> lanceurVec){
 	long double sum=0;	
 	for (auto x:lanceurVec){
-		sum += x.puissance();
+		sum += x.puissance;
 	}
 	return sum;
 }
@@ -44,9 +44,10 @@ void ordinateurDeBord::calculGravite(vector <module> lanceurVec){
 	masseTot+=x.carburant;
 		
 	}
-	gravite.first = 6.674*masseTot*5.972*pow(10,13)*position.first/pow(pow((pow(position.first,2)+pow(position.second,2)),0.5),3);
-	gravite.second = 6.674*masseTot*5.972*pow(10,13)*position.second/pow(pow((pow(position.first,2)+pow(position.second,2)),0.5),3);
-	cout <<gravite.first<<","<<gravite.second<<","<<masseTot<<endl;
+	long double vecR = sqrt(pow(position.first,2)+pow(position.second,2));
+	gravite.first = -39.857128E13*masseTot*position.first/pow(vecR,3);
+	gravite.second = -39.857128E13*masseTot*position.second/pow(vecR,3);
+	cout <<gravite.first<<","<<gravite.second<<","<<masseTot<<","<<position.first<<","<<position.second<<endl;
 }
 
 long double ordinateurDeBord::densite(){
@@ -75,9 +76,12 @@ long double ordinateurDeBord::sumFrottement(vector <module> lanceurVec){
 }
 
 void ordinateurDeBord::sumForce(vector <module> lanceurVec){
+//cout <<"calcul des forces"<<endl;	
 	calculGravite(lanceurVec);
+//cout <<"gravite done"<<endl;
 	long double power = sumPuissance(lanceurVec); 		// ATTENTION ceci ne fonction que si on décolle "vers le haut" si on part de l'autre côté de la terre on va avoir des soucis
-	long double frot = sumFrottement(lanceurVec);			// il est nécéssaire de bien gérer l'angle de la fussée
+//cout <<"puissance done"<<endl;
+	long double frot = sumFrottement(lanceurVec);			// il est nécéssaire de bien gérer l'angle de la fusée
 	SommeForces.first = gravite.first+power * sin(angle)-frot *sin(angle);
 	SommeForces.second = gravite.second+power * cos(angle)-frot * cos(angle);
 	
@@ -92,13 +96,15 @@ long double ordinateurDeBord::checkMasse(vector <module> lanceurVec){
 }
 
 void ordinateurDeBord::updateMouv(long double t,long double masse){
-	position.first = vitesse.first*t;
-	position.second=vitesse.second*t;
-	vitesse.first = acceleration.first*t;
-	vitesse.second = acceleration.second*t;
-	//cout <<"SF: "<<SommeForces.first<<","<<SommeForces.second<<endl;
+	cout <<"vit :"<<vitesse.first<<","<<vitesse.second<<"#"<<t<<endl;
 	acceleration.first=SommeForces.first/masse;
 	acceleration.second=SommeForces.second/masse;
+	vitesse.first += acceleration.first*t;
+	vitesse.second += acceleration.second*t;
+	position.first += vitesse.first*t;
+	position.second+=vitesse.second*t;
+	//cout <<"SF: "<<SommeForces.first<<","<<SommeForces.second<<endl;
+	
 		
 }
 void ordinateurDeBord::updateAngle(long double temps){
