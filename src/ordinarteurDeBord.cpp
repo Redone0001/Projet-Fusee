@@ -17,7 +17,7 @@ ordinateurDeBord::ordinateurDeBord (){
 }
 
 bool ordinateurDeBord::checkCarburant(module x){
-	if (x.carburant<1){
+	if (x.carburant<40){
 		x.~module();
 		return(true);
 	}
@@ -26,9 +26,9 @@ bool ordinateurDeBord::checkCarburant(module x){
 	}
 }
 
-void ordinateurDeBord::updateCarburant(module x){
+void ordinateurDeBord::updateCarburant(module & x){
 	x.carburant = x.carburant-(x.consomation*x.throttle*0.1);
-	cout <<x.consomation*x.throttle*0.1<<endl;
+	//cout <<x.carburant<<endl;
 }
 
 long double ordinateurDeBord::sumPuissance(vector <module> lanceurVec){
@@ -111,6 +111,11 @@ void ordinateurDeBord::updateMouv(long double t,long double masse){
 }
 void ordinateurDeBord::updateAngle(long double temps){
 	
-	//angle = (1/(1+exp(-0.05*(temps-120))*1.570796)+1.570796);
-	angle = 3.141592/2;
+	//angle = (1/(1+exp(-0.05*(temps-120))*1.570796)+1.570796);	
+	if (temps <2*60){
+		angle = 3.141592/2;
+	}
+	else {
+		angle = 0;
+	}	
 }

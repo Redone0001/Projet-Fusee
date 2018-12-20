@@ -7,7 +7,7 @@ class ordinateurDeBord{
 	public :
 	ordinateurDeBord ();
 	bool checkCarburant(module); //vérifie que le carburant est pas trop bas et si c'est à un niveau critique éjecte(supprime) le module
-	void updateCarburant(module);//update le carburant 
+	void updateCarburant(module &);//update le carburant 
 	long double sumPuissance(std::vector <module>);// dans le sens du mouvement
 	void sumForce(std::vector <module>); // modifie la pair de long double Somme des forces
 	void calculGravite(std::vector <module>);  // modifie la pair de long double gravite
