@@ -4,12 +4,12 @@
 
 void initialisationCSV(std::string fileName){
 	std::ofstream fs(fileName);
-	fs<<"x,y\n";
+	fs<<"t,x,y\n";
 	fs.close();
 
 }
-void saveToCSV(std::string fileName, ordinateurDeBord ENIAC){
+void saveToCSV(std::string fileName, ordinateurDeBord ENIAC, long double t){
 	std::ofstream fs (fileName, std::fstream::app);
-	fs <<ENIAC.position.first<<","<<ENIAC.position.second<<"\n";
+	fs <<t<<","<<ENIAC.position.first<<","<<ENIAC.position.second<<"\n";
 	fs.close();
 }
