@@ -17,15 +17,19 @@ int main(){
 	lanceurVec.push_back(etage2);
 	lanceurVec.push_back(etage1);
 	for (int i=0;i<4; i++){
-		module booster(3500,40000,1000000,2.82,105,0);
+		module booster(3500,40000,1000000,2.82,333.33,0);
 		lanceurVec.push_back(booster);
 	}
 	ordinateurDeBord ENIAC;
 //vol
 	initialisationCSV("save.csv");
-	long double deltaT = 0.05;
+	long double deltaT = 0.1;
 	long double t = 0;
-	while(t<=(5)){
+	for(int i = 3;i<7;i++){
+		lanceurVec.at(i).throttle=1;
+	}
+	lanceurVec.at(2).throttle=1;
+	while(t<=(60)){
 		//cout <<"test"<<endl;
 
 		for (auto x:lanceurVec){
@@ -51,7 +55,7 @@ int main(){
 		ENIAC.sumForce(lanceurVec);
 		long double masse = ENIAC.checkMasse(lanceurVec);
 		cout <<masse<<endl;
-		ENIAC.updateMouv(0.05,masse);
+		ENIAC.updateMouv(deltaT,masse);
 
 		saveToCSV("save.csv",ENIAC);
 

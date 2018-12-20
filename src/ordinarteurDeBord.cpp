@@ -8,7 +8,7 @@ ordinateurDeBord::ordinateurDeBord (){
 	angle = 3.141592;
 	position.first = 0;
 	position.second=6371000.0;
-	vitesse.first=465;
+	vitesse.first=0;
 	vitesse.second=0;
 	acceleration.first=0;
 	acceleration.second=0;
@@ -27,7 +27,8 @@ bool ordinateurDeBord::checkCarburant(module x){
 }
 
 void ordinateurDeBord::updateCarburant(module x){
-	x.carburant = x.carburant-(x.consomation*x.throttle);
+	x.carburant = x.carburant-(x.consomation*x.throttle*0.1);
+	cout <<x.consomation*x.throttle*0.1<<endl;
 }
 
 long double ordinateurDeBord::sumPuissance(vector <module> lanceurVec){
@@ -47,7 +48,7 @@ void ordinateurDeBord::calculGravite(vector <module> lanceurVec){
 	long double vecR = sqrt(pow(position.first,2)+pow(position.second,2));
 	gravite.first = -39.857128E13*masseTot*position.first/pow(vecR,3);
 	gravite.second = -39.857128E13*masseTot*position.second/pow(vecR,3);
-	cout <<gravite.first<<","<<gravite.second<<","<<masseTot<<","<<position.first<<","<<position.second<<endl;
+	//cout <<gravite.first<<","<<gravite.second<<","<<masseTot<<","<<position.first<<","<<position.second<<endl;
 }
 
 long double ordinateurDeBord::densite(){
@@ -79,12 +80,12 @@ void ordinateurDeBord::sumForce(vector <module> lanceurVec){
 //cout <<"calcul des forces"<<endl;	
 	calculGravite(lanceurVec);
 //cout <<"gravite done"<<endl;
-	long double power = sumPuissance(lanceurVec); 		// ATTENTION ceci ne fonction que si on décolle "vers le haut" si on part de l'autre côté de la terre on va avoir des soucis
+	long double power = sumPuissance(lanceurVec); 		// ATTENTION ceci ne fonctionne que si on décolle "vers le haut" si on part de l'autre côté de la terre on va avoir des soucis
 //cout <<"puissance done"<<endl;
 	long double frot = sumFrottement(lanceurVec);	
-	cout<<angle<<endl;		// il est nécéssaire de bien gérer l'angle de la fusée
-	SommeForces.first = gravite.first+power * sin(angle)-frot *sin(angle);
-	SommeForces.second = gravite.second+power * cos(angle)-frot * cos(angle);
+	//cout<<angle<<endl;		// il est nécéssaire de bien gérer l'angle de la fusée
+	SommeForces.first = gravite.first+power * cos(angle)-frot *cos(angle)*0;
+	SommeForces.second = gravite.second+power * sin(angle)-frot * sin(angle)*0;
 	
 }
 long double ordinateurDeBord::checkMasse(vector <module> lanceurVec){
@@ -97,7 +98,7 @@ long double ordinateurDeBord::checkMasse(vector <module> lanceurVec){
 }
 
 void ordinateurDeBord::updateMouv(long double t,long double masse){
-	cout <<"vit :"<<vitesse.first<<","<<vitesse.second<<"#"<<t<<endl;
+	//cout <<"vit :"<<vitesse.first<<","<<vitesse.second<<"#"<<t<<endl;
 	acceleration.first=SommeForces.first/masse;
 	acceleration.second=SommeForces.second/masse;
 	vitesse.first += acceleration.first*t;
@@ -110,6 +111,6 @@ void ordinateurDeBord::updateMouv(long double t,long double masse){
 }
 void ordinateurDeBord::updateAngle(long double temps){
 	
-	angle = (1/(1+exp(-0.05*(temps-120))*1.570796)+1.570796);
-	
+	//angle = (1/(1+exp(-0.05*(temps-120))*1.570796)+1.570796);
+	angle = 3.141592/2;
 }
