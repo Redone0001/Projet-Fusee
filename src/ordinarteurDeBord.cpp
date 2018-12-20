@@ -8,8 +8,8 @@ ordinateurDeBord::ordinateurDeBord (){
 	angle = 3.141592;
 	position.first = 0;
 	position.second=6371000.0;
-	vitesse.first=0;
-	vitesse.second=465;
+	vitesse.first=465;
+	vitesse.second=0;
 	acceleration.first=0;
 	acceleration.second=0;
 	gravite.first=0;
@@ -27,13 +27,13 @@ bool ordinateurDeBord::checkCarburant(module x){
 }
 
 void ordinateurDeBord::updateCarburant(module x){
-	x.carburant = x.carburant-x.consomation;
+	x.carburant = x.carburant-(x.consomation*x.throttle);
 }
 
 long double ordinateurDeBord::sumPuissance(vector <module> lanceurVec){
 	long double sum=0;	
 	for (auto x:lanceurVec){
-		sum += x.puissance;
+		sum += (x.puissance*x.throttle);
 	}
 	return sum;
 }
@@ -81,7 +81,8 @@ void ordinateurDeBord::sumForce(vector <module> lanceurVec){
 //cout <<"gravite done"<<endl;
 	long double power = sumPuissance(lanceurVec); 		// ATTENTION ceci ne fonction que si on décolle "vers le haut" si on part de l'autre côté de la terre on va avoir des soucis
 //cout <<"puissance done"<<endl;
-	long double frot = sumFrottement(lanceurVec);			// il est nécéssaire de bien gérer l'angle de la fusée
+	long double frot = sumFrottement(lanceurVec);	
+	cout<<angle<<endl;		// il est nécéssaire de bien gérer l'angle de la fusée
 	SommeForces.first = gravite.first+power * sin(angle)-frot *sin(angle);
 	SommeForces.second = gravite.second+power * cos(angle)-frot * cos(angle);
 	

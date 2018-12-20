@@ -8,6 +8,7 @@ class module{
 	long double puissance;
 	const long double surfaceFrot;
 	long double consomation;
-	module(long double,long double,long double,long double,long double);
+	long double throttle;
+	module(long double,long double,long double,long double,long double, long double);
 	~module();
 };
